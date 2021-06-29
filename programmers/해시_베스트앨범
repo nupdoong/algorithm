@@ -1,0 +1,33 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <algorithm>
+using namespace std;
+
+vector<int> solution(vector<string> genres, vector<int> plays) {
+    vector<int> answer;
+    map<string, vector<pair<int, int>>> m;
+    map<string, int> m2;
+    vector<pair<int, string>> v;
+    for(int i=0; i<genres.size(); i++){
+        string s = genres[i];
+        m[s].push_back({plays[i]*(-1), i});
+        m2[s] += plays[i];
+    }
+    for(auto it=m2.begin(); it!=m2.end(); it++){
+        string s = it->first;
+        int num = it->second;
+        v.push_back({num*(-1), s});
+    }
+    sort(v.begin(), v.end());
+    for(int i=0; i<v.size(); i++){
+        string s = v[i].second;
+        sort(m[s].begin(), m[s].end());
+        for(int j=0; j<m[s].size(); j++){
+            answer.push_back(m[s][j].second);
+            if(j==1)
+                break;
+        }
+    }
+    return answer;
+}
